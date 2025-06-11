@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+
+{% block title %}Services{% endblock %}
+
+{% block content %}
+  <h2>Services</h2>
+
+  <!-- Display flash messages -->
+  {% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+      {% for category, message in messages %}
+        <div class="alert alert-{{ category }}">{{ message }}</div>
+      {% endfor %}
+    {% endif %}
+  {% endwith %}
+
+  <!-- Service Form to add new service -->
+  {% if current_user.is_admin %}
+    <form method="POST" action="{{ url_for('services') }}">
+      {{ form.hidden_tag() }}
+      <div class="mb-3">
+        {{ form.name.label }}<br>
+        {{ form.name(class="form-control") }}
+      </div>
+      <div class="mb-3">
+        {{ form.provider.label }}<br>
+        {{ form.provider(class="form-control") }}
+      </div>
+      <button type="submit" class="btn btn-primary">Add Service</button>
+    </form>
+  {% endif %}
+
+  <hr>
+
+  <!-- List of services -->
+  <ul>
+    {% for service in services %}
+      <li><strong>{{ service.name }}</strong> - Provided by: {{ service.provider }}</li>
+    {% else %}
+      <li>No services available.</li>
+    {% endfor %}
+  </ul>
+{% endblock %}
