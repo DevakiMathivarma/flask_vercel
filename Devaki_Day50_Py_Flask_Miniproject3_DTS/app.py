@@ -96,7 +96,7 @@ with app.app_context():
 # Routes
 @app.route('/')
 def home():
-    return render_template('home.html')
+    return render_template('index.html')
 
 @app.route('/register', methods=['GET', 'POST'])
 def register():
@@ -118,7 +118,7 @@ def login():
         if user and bcrypt.check_password_hash(user.password, form.password.data):
             login_user(user)
             flash('Logged in!', 'success')
-            return redirect(url_for('home'))
+            return redirect(url_for(''))
         flash('Login failed', 'danger')
     return render_template('login.html', form=form)
 
